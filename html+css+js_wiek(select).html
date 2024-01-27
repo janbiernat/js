@@ -1,0 +1,80 @@
+<HTML><HEAD><META CHARSET="utf-8" />
+<!--
+  Zadanie:
+  Wykonaj formularz, który umożliwi podanie wieku.
+  Na podstawie podanego wieku należy przypisać osobę
+  do odpowiednie grupy społecznej.
+  Grupy społeczne to:
+    * Od 1 roku do 6 lat - komunikat "Jesteś dzieckiem.".
+    * Od 7 do 18 lat     - komunikat: "Jesteś dzieckiem i uczniem.".
+    * Od 18 do 25 lat    - komunikat: "Jesteś młodzieńcem i uczniem(studentem)
+                           i/lub jesteś czynny zawodowo.".
+    * Od 26 do 35 lat    - komunikat: "Jesteś młodzieńcem i czynny zawodowo.".
+    * Od 36 do 65 lat    - komunikat: "Jesteś osobą dorosłą czynną zawodowo.".
+    * Od 66 lat          - komunikat: "Jesteś emerytem.".
+  Formularz należy zabezpieczyć przed błędnie podanym wiekiem.
+-->
+<TITLE>HTML+CSS+JS, Wiek, Przypisanie do grupy społecznej, Lista lat (c)by Jan T. Biernat</TITLE>
+<STYLE>
+  body {
+    background-color     : gray;
+    background-image     : url('');
+    background-attachment: fixed;
+    font-family          : arial;
+    font-size            : 18pt;
+  }
+</STYLE>
+</HEAD>
+<SCRIPT>
+function WiekDoGrupySpol() {
+//WiekDoGrupySpol - Określa grupę społeczną na podstawie wieku.
+  var Inf1 = "", Inf2 = "";
+  var Wiek = 0; Wiek = document.getElementById('fWiek').value;
+  //Gramatyka.
+    if(Wiek == 1) { Inf1 = " rok."; }
+    else if((Wiek > 1) && (Wiek < 5)) { Inf1 = " lata."; }
+         else { Inf1 = " lat."; }
+  //Przypisanie do grupy społecznej.
+    if((Wiek > 0) && (Wiek < 7)) { Inf2 = "Jesteś jeszcze dzieckiem."; }
+    else if((Wiek > 6) && (Wiek < 19)) { Inf2 = "Jesteś dzieckiem i uczniem."; }
+         else if((Wiek > 18) && (Wiek < 26)) { Inf2 = "Jesteś młodzieńcem i uczniem(studentem) i/lub jesteś czynny zawodowo."; }
+              else if((Wiek > 25) && (Wiek < 36)) { Inf2 = "Jesteś młodzieńcem i czynny zawodowo."; }
+                   else if((Wiek > 35) && (Wiek < 66)) { Inf2 = "Jesteś osobą dorosłą czynną zawodowo."; }
+                        else if(Wiek > 65) { Inf2 = "Jesteś emerytem."; }
+  document.getElementById('Info').innerHTML = "Podany wiek to: "+Wiek.toString()+Inf1+"<BR />"+Inf2;
+}
+/*
+ Legenda:
+  parseInt(S, P) - Funkcja analizuje argument P w postaci
+                   ciągu znaków i zwraca liczbę całkowitą.
+                   Parametr S - Ciąg znaków rozpoczynający
+                                się od liczby całkowitej.
+                   Parametr P - Liczba całkowita pomiędzy 2 a 36,
+                                która reprezentuje podstawę
+                                (podstawę systemu liczbowego).
+ */
+</SCRIPT>
+<BODY>
+<FONT STYLE="font-size:8pt;">
+  HTML+CSS+JS, Wiek, Przypisanie do grupy społecznej, Lista lat (c)by Jan T. Biernat
+</FONT><BR /><BR />
+    <FORM NAME="haslo" ACTION="">
+        <TABLE BORDER="0">
+            <TR><TD STYLE="font-size:24pt;">Wiek</TD>
+                <TD STYLE="font-size:24pt;">:</TD>
+                <TD><SELECT STYLE="width:100px; height:45px; font-size:24pt;" ID="fWiek" AUTOFOCUS />
+                            <OPTION SELECTED>1</OPTION>
+                            <SCRIPT>
+                               for(var I = 0; I < 99; I++) {
+                                 document.write('<OPTION>'+(I+2)+'</OPTION>');
+                               }
+                            </SCRIPT>
+                    </SELECT>
+                </TD>
+                <TD><INPUT TYPE="button" VALUE="Sprawdź" STYLE="width:200px; height:45px; font-size:24pt;" ID="fSprawdz" onClick="WiekDoGrupySpol();" /></TD>
+            </TR>
+        </TABLE>
+    </FORM>
+    <P ID="Info">Podaj swój wiek.</P>
+</BODY>
+</HTML>
