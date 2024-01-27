@@ -1,0 +1,38 @@
+﻿<HTML><HEAD><META CHARSET="utf-8" />
+<TITLE>Wypisz wszystkie liczby naturalne od 1 do N w kolejności rosnącej i oblicz sumę tych liczb. (c)by Jan T. Biernat</TITLE>
+<STYLE>
+body {
+  background-color:#c0c0c0;
+  font-family     :verdana;
+  font-size       :16pt;
+  color           :black;
+}
+</STYLE>
+</HEAD>
+<SCRIPT>
+function mat_WypiszLiczbyNaturalne() {
+  var T = ""; T = document.getElementById('fkEdit').value;
+  if((T.trim() != "") && (Number(T) > 0)) {
+    var S = "";
+    var Suma = 0;
+    for(var I = 1; I < Number(T)+1; I++) {
+      S = S+" + "+I.toString();
+      Suma = Suma + I;
+    }
+    document.getElementById('fkWynik').innerHTML = S.substr(3)+" = "+Suma.toString()+".";
+  } else { document.getElementById('fkWynik').innerHTML = "Proszę wprowadzić liczbę!"; }
+}
+</SCRIPT>
+<BODY>
+<FONT STYLE="font-size:8pt;">Wypisz wszystkie liczby naturalne od 1 do N w kolejności rosnącej i oblicz sumę tych liczb.</FONT><BR /><BR />
+   <FORM NAME="formularz1" ACTION="">
+         <TABLE BORDER="0" WIDTH="500px">
+                <TR><TD>&nbsp;Podaj liczbę maksymalną:
+                        &nbsp;<INPUT TYPE="number" ID="fkEdit" STYLE="height:24px; width:55px;" />
+                        &nbsp;<INPUT TYPE="button" ID="fkWykonaj" VALUE="Wykonaj" onClick="mat_WypiszLiczbyNaturalne();" />&nbsp;</TD>
+                </TR>
+                <TR><TD ID="fkWynik">&nbsp;</TD></TR>
+         </TABLE>
+   </FORM>
+</BODY>
+</HTML>
