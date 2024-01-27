@@ -1,0 +1,45 @@
+﻿<HTML><HEAD><META CHARSET="utf-8" />
+<TITLE>Tabliczka mnożenia na krzyż. (c)by Jan T. Biernat</TITLE>
+<STYLE>
+body {
+  background-color:#c0c0c0;
+  font-family     :verdana;
+  font-size       :16pt;
+  color           :black;
+}
+</STYLE>
+</HEAD>
+<SCRIPT>
+function TabliczkaMnozenia() {
+  //Stała określająca parametry nagłówka tabeli.
+    const StylTabelaN = 'STYLE="color           :white;'
+                       +' font-weight     :bold;'
+                       +' border          :1px solid #000000;'
+                       +' background-color:#808080;"';
+   //Tabelka - ustawienia.
+     document.write('<TABLE STYLE="border:1px solid #000000;'
+                                +' background-color:white;'
+                                +' border-collapse :collapse;'
+                                +' color           :black;'
+                                +' text-align      :right;'
+                                +' font-size       :16pt;">');
+   document.write('\n<TR><TD '+StylTabelaN+'>&nbsp;</TD>'); //Pusta komórka.
+   for(var A = 1; A < 11; A++) {
+     document.write('<TD '+StylTabelaN+'>&nbsp;'+(A)+'&nbsp;</TD>');
+   }
+   document.write('</TR>');
+   //Tabliczka mnożenia.
+     for(var G = 1; G < 11; G++) {
+       document.write('\n<TR><TD '+StylTabelaN+'>&nbsp;'+(G)+'&nbsp;</TD>'); //Nagłówek lewy tabeli.
+       //Przemnożenie liczb.
+         for(var H = 1; H < 11; H++) { document.write('<TD STYLE="border:1px solid #000000;">&nbsp;'+(G*H)+'&nbsp;</TD>'); }
+       document.write('</TR>');
+     }
+     document.write('\n</TABLE>');
+}
+</SCRIPT>
+<BODY>
+<FONT STYLE="font-size:8pt;">Tabliczka mnożenia na krzyż.</FONT><BR /><BR />
+<SCRIPT>TabliczkaMnozenia();</SCRIPT>
+</BODY>
+</HTML>
