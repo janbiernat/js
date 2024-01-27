@@ -1,0 +1,101 @@
+<HTML><HEAD><META CHARSET="utf-8" />
+<TITLE>HTML+CSS+JS - Tablica ASCII 2, Zabezpieczenie (c)by Jan T. Biernat</TITLE>
+<STYLE>
+body {
+  background-color     : gray;
+  background-image     : url('');
+  background-attachment: fixed;
+  font-family          : verdana;
+  font-size            : 16pt;
+}
+table {
+  border          : 1px solid black;
+  background-color: white;
+  border-collapse : collapse;
+  font-size       : 35pt;
+}
+td {
+  border    : 1px solid black;
+  cursor    : pointer;
+  padding   : 1px;
+  text-align: center;
+}
+#kafelek {
+  border          : 0px solid white;
+  width           : 55px;
+  height          : 55px;
+  font-size       : 30pt;
+  text-align      : center;
+  cursor          : pointer;
+}
+.kafelek_zaznacz { background:white; } 
+.kafelek_zaznacz:hover { background-color:#ff9966; } 
+</STYLE>
+</HEAD>
+<SCRIPT>
+function ZeraPrzedLiczba(Str, Ile) {
+//ZeraPrzedLiczba - Funkcja dodaje na początku zera wiodące.
+  var Zera = "";
+  if(Ile > Str.length) {
+    for(var I = 0; I < (Ile-Str.length); I++) { Zera+= '0'; }
+    return Zera+Str;
+  } else { return Str; }
+}
+function formatujLiczbeBIN(Str) {
+//formatujLiczbeBIN - Funkcja formatuje liczbę w systemie binarnym (np. 11111111 => 1111 1111).
+  var Licznik = 0;
+  var Znaki = "";
+  for(var I = Str.length-1; I > -1; I--) {
+    Znaki = Str[I]+Znaki;
+    Licznik++;
+    if(Licznik > 3) {
+      Licznik = 0;
+      Znaki = ' '+Znaki;
+    }
+  }
+  return Znaki.trim();
+}
+function TablicaASCII() {
+//TablicaASCII - Funkcja generuje tablicę kodów ASCII.
+  var Liczba = 0, Nr = 0;
+  for(var Wiersz = 0; Wiersz < 8; Wiersz++) {
+    document.write('<TR>');
+    for(var Kol = 0; Kol < 12; Kol++) {
+      Nr = 0; Nr = Liczba+32;
+      document.write('<TD><INPUT TYPE="text" VALUE="'
+                   +String.fromCharCode(Nr)
+                   +'" ID="kafelek" onMouseOver="InfASCII('+Nr+');" onMouseLeave="InfASCII('+Nr+');"'
+                   +' CLASS="kafelek_zaznacz"'
+                   +' READONLY /></TD>');
+      Liczba++;
+    }
+    document.write('</TR>');
+  }
+}
+function InfASCII(Str) {
+//InfASCII - Funkcja wyświetla informacje o wskazanym znaku.
+  const Oddziel = '&nbsp;&nbsp;|&nbsp;&nbsp;';
+  var _Str = "", _InfASCII = "";
+  if(Str == 32) { _Str = 'Spacja'; } 
+  else { _Str = String.fromCharCode(Str); }
+  _InfASCII = 'Znak: '+_Str+Oddziel
+             +'Kod: '+Str+Oddziel
+             +'HEX: '+Str.toString(16).toUpperCase()+Oddziel
+             +'BIN: '+formatujLiczbeBIN(ZeraPrzedLiczba(Str.toString(2), 8));
+  if(Str > 126) { _InfASCII = "To jest puste pole!"; }
+  document.getElementById('ascii_inf').innerHTML = _InfASCII;
+}
+</SCRIPT>
+<BODY>
+    <FONT STYLE="font-size:6pt;">
+        HTML+CSS+JS - Tablica ASCII 2, Zabezpieczenie (c)by Jan T. Biernat
+    </FONT><BR /><BR />
+    <CENTER>
+    <TABLE>
+        <CAPTION STYLE="font-size:18pt;">Tablica ASCII</CAPTION>
+        <SCRIPT>TablicaASCII();</SCRIPT>
+        <TR><TD COLSPAN="12" ID="ascii_inf" STYLE="font-size:18pt;">Proszę wskazać kursorem myszy wybrany znak.</TD></TR>
+    </TABLE>
+    </CENTER>
+</BODY>
+</HTML>
