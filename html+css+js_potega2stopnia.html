@@ -1,0 +1,37 @@
+﻿<HTML><HEAD><META CHARSET="utf-8" />
+<TITLE>Obliczenie potęgi 2 stopnia - Zabezpieczenie (c)by Jan T. Biernat</TITLE>
+<STYLE>
+body {
+  background-color:#c0c0c0;
+  font-family     :verdana;
+  font-size       :16pt;
+  color           :black;
+}
+</STYLE>
+</HEAD>
+<SCRIPT>
+function mat_potega() {
+  var T = ""; T = document.getElementById('fkEdit').value;
+  if(T.trim() != "") {
+      var Wynik = 0; Wynik = Number(T)*Number(T);
+      var infWynikEl = document.getElementById('infWynik');
+      infWynikEl.innerHTML = T+"^2 = "+Wynik.toString();
+  } else {
+           document.getElementById('infWynik').innerHTML = "Proszę wprowadzić liczbę!";
+         }
+  }
+</SCRIPT>
+<BODY>
+<FONT STYLE="font-size:8pt;">JavaScript - Obliczenie potęgi 2 stopnia - Zabezpieczenie (c)by Jan T. Biernat</FONT><BR /><BR />
+   <FORM NAME="formularz1" ACTION="">
+         <TABLE BORDER="0">
+                <TR><TD>Podaj liczbę</TD>
+                    <TD>:</TD>
+                    <TD><INPUT TYPE="number" ID="fkEdit" STYLE="height:24px; width:55px;" /></TD>
+                    <TD>&nbsp;<INPUT TYPE="button" ID="fkWykonaj" VALUE="Wykonaj" onClick="mat_potega();" />&nbsp;</TD>
+                </TR>
+                <TR><TD COLSPAN="4" ID="infWynik">&nbsp;</TD></TR>
+         </TABLE>
+   </FORM>
+</BODY>
+</HTML>
