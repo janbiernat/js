@@ -1,0 +1,143 @@
+﻿<HTML><HEAD><META CHARSET="utf-8" />
+<TITLE>Tabliczka mnożenia - Test (określenie zakresu). (c)by Jan T. Biernat</TITLE>
+<STYLE>
+body {
+  background-color: #c0c0c0;
+  font-family     : verdana;
+  font-size       : 16pt;
+  color           : black;
+}
+.tm_pytanie {
+    font-size  : 144pt;
+    font-weight: bold;
+    text-align : center;
+}
+.tm_odpowiedz {
+    font-size : 32pt;
+    text-align: center;
+}
+.tm_odpowiedz_edytor { font-size:32pt; width:111px; }
+.tm_odpowiedz_klawisz { font-size:32pt; width:211px; }
+</STYLE>
+</HEAD>
+<SCRIPT>
+var A = 0; //Zadeklarowanie zmiennej liczbowej "A".
+var B = 0;
+var PunktyOdpD = 0, PunktyOdpZ = 0, Odpowiedz;
+function tCout(Indentyfikator) {
+  /*Wyświetl dane na ekranie wykorzystując
+    komponenty/kontrolki znajdujące się na stronie.*/
+  return document.getElementById(Indentyfikator);
+}
+function iObliczProcent(iWartoscZmienna, iWartoscMaksymalna) {
+  //Oblicz procent.
+  if(iWartoscMaksymalna > 0) {
+    return Math.round(iWartoscZmienna*100/iWartoscMaksymalna);
+  } else { return 0; }
+}
+function tKomentarzePozytywne() {
+  //Komentarze pozytywne.
+  var Tablica = ['Bardzo dobrze',
+                 'Dobrze',
+                 'Doskonale',
+                 'Rewelacja',
+                 'Pięknie',
+                 'Tak trzymaj',
+                 'Rewelacyjnie',
+                 'Wyśmienicie'];
+  return Tablica[Math.round(Math.random()*(Tablica.length-1))]+'!'; //Wylosowanie pochwały.
+}
+function tKomentarzeNegatywne() {
+  //Komentarze negatywne.
+  var Tablica = ['Bardzo źle',
+                 'Źle',
+                 'Beznadziejnie',
+                 'Kiepsko',
+                 'Musisz się jeszcze podszkolić',
+                 'Ale wstyd',
+                 'Wstyd',
+                 'Tragedia'];
+  return Tablica[Math.round(Math.random()*(Tablica.length-1))]+'!'; //Wylosowanie nagany.
+}
+function tWyswietlOcene(iProcent) {
+  //Wyświetl ocenę.
+  const tKomentarz = 'Ocena: <SPAN STYLE="color:';
+  var tOcena = "";
+  if(iProcent > 95) tOcena = tKomentarz+'blue;">Bardzo dobry (5.0)</SPAN>';
+  else if(iProcent > 80) tOcena = tKomentarz+'green;">Dobry (4.0)</SPAN>'; 
+       else if(iProcent > 70) tOcena = tKomentarz+'brown;">Dostateczny (3.0)</SPAN>';
+            else if(iProcent > 50) tOcena = tKomentarz+'black;">Mierny (2.0)</SPAN>';
+                 else if(iProcent <= 50) tOcena = tKomentarz+'red;">Jedynka (1.0)</SPAN>';
+  return tOcena;
+}
+function tm_losuj() {
+  //Wylosowanie dwóch liczb.
+  do {
+    A = 0; //Przypisanie wartości zerowej do zmiennej liczbowej "A".
+    A = Math.round(Math.random()*10);
+    B = 0; B = Math.round(Math.random()*10);
+  } while((A*B) > 25); //Jeżeli wylosowane liczby dadzą wynik z mnożenia większy od liczby 50,
+                       //to wykonaj ponowne losowanie dwóch liczb.
+  tCout('pytanie').innerHTML = A + ' x ' + B;
+  /*Math.random()    - funkcja losuje liczbę z przedziału od 0 do 1.
+    Math.random()*10 - funkcja losuje liczbę z przedziału od 0 do 10.
+    "A + ' x ' + B"  - Połączenie zawartości zmiennej "A",
+                       tekstu znajdującego się pomiędzy apostrofami
+                       i zawartości zmiennej "B" w jeden ciąg znaków.
+    tCout('pytanie').innerHTML - Wywołanie funkcji "tCout"
+                                   z właściwością "innerHTML".
+                                   Właściwość "innerHTML" umożliwia
+                                   podmianę zawartości np. paragrafu "<P>",
+                                   komórki w tabeli "<TD>" itp.*/
+}
+function tm_sprawdz() {
+  //Sprawdź poprawność odpowiedzi.
+    Odpowiedz = 0; Odpowiedz = tCout('fkWynik').value;
+    if(isNaN(Odpowiedz)) { //Sprawdzenie, czy podana wartość nie jest liczbą.
+      tCout('komentarz').innerHTML = '<SPAN STYLE="color:red;">BŁĄD -?To nie jest liczba!</SPAN>';
+    } else {
+             //Jeżeli podano liczby, to wykonaj poniższe instrukcje.
+               if(Odpowiedz == (A*B)) {
+                 //Jeżeli podana odpowiedź jest prawidłowa, to wykonaj poniższe instrukcje.
+                 tCout('komentarz').innerHTML = '<SPAN STYLE="color:blue;">'+tKomentarzePozytywne()+'</SPAN>';
+                 PunktyOdpD++; /*Dodaj 1 punkt.
+                                 Zapis "PunktyOdpD++" = "PunktyOdpD = PunktyOdpD + 1".*/
+                 tm_losuj(); //Wywołanie funkcji losujące kolejne pytanie.
+               } else {
+                        /*Jeżeli podana odpowiedź jest błędna,
+                          to wykonaj instrukcje po słowie ELSE.*/
+                        tCout('komentarz').innerHTML = '<SPAN STYLE="color:red;">'+tKomentarzeNegatywne()+'</SPAN><BR />'
+                                                         +'<SPAN STYLE="color:black; font-size:13pt">Podpowiedź: '+A+' x '+B+' = '
+                                                         +(A*B)+'.</SPAN>';
+                        PunktyOdpZ++; //Dodaj 1 punkt karny.
+                      }
+           }
+  var iIloscPytan = 0; iIloscPytan = PunktyOdpD+PunktyOdpZ; //Obliczenie ilości pytań.
+  var ProcentPunktyOdpD = 0; ProcentPunktyOdpD = iObliczProcent(PunktyOdpD, iIloscPytan); //Obliczenie ilości pytań procentowo.
+  var ProcentPunktyOdpZ = 0; ProcentPunktyOdpZ = iObliczProcent(PunktyOdpZ, iIloscPytan);
+  tCout('OdpDobra').innerHTML = PunktyOdpD+' ('+ProcentPunktyOdpD.toString()+'%)'; //Wyświetl ilość punktów pozytywnych.
+  tCout('OdpZla').innerHTML = PunktyOdpZ+' ('+ProcentPunktyOdpZ+'%)'; //Wyświetl ilość punktów negatywnych.
+  tCout('WystawOcene').innerHTML = tWyswietlOcene(ProcentPunktyOdpD); //Wyświetlenie oceny.
+  tCout('fkWynik').value = ""; //Wyczyszczenie komponentu/kontrolki.
+}
+</SCRIPT>
+<BODY onLoad="tm_losuj(); document.getElementById('fkWynik').focus();">
+<FONT STYLE="font-size:8pt;">Tabliczka mnożenia - Test (określenie zakresu). Wystawia ocenę z testu.</FONT><BR /><BR />
+<CENTER>
+     <FORM NAME="tabliczka_mnozenia">
+          <TABLE BORDER="0" WIDTH="900px">
+                <TR><TD COLSPAN="2">&nbsp;</TD></TR>
+                <TR><TD WIDTH="50%">Odpowiedzi dobrych: <SPAN ID="OdpDobra">0</SPAN></TD>
+                    <TD WIDTH="50%" ALIGN="right">Odpowiedzi złych: <SPAN ID="OdpZla">0</SPAN></TD></TR>
+                <TR><TD WIDTH="50%" ID="WystawOcene">&nbsp;</TD>
+                    <TD WIDTH="50%" ALIGN="right">&nbsp;</TD></TR>
+                <TR><TD COLSPAN="2"><P ID="pytanie" CLASS="tm_pytanie"></P></TD></TR>
+                <TR><TD COLSPAN="2" CLASS="tm_odpowiedz">Odpowiedź:&nbsp;<INPUT TYPE="text" ID="fkWynik" PLACEHOLDER="?" MAXLENGTH="3" CLASS="tm_odpowiedz_edytor" />
+                                                                   &nbsp;<INPUT TYPE="submit" VALUE="Sprawdź" onClick="tm_sprawdz(); return false;" CLASS="tm_odpowiedz_klawisz" /></TD></TR>
+                <TR><TD COLSPAN="2" ID="komentarz" STYLE="font-size:24pt;" ALIGN="right">&nbsp;</TD></TR>
+                <TR><TD COLSPAN="2">&nbsp;</TD></TR> 
+          </TABLE>
+     </FORM>
+</CENTER>
+</BODY>
+</HTML>
