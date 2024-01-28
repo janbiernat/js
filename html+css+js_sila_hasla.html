@@ -1,0 +1,176 @@
+<HTML><HEAD><META CHARSET="utf-8" />
+<TITLE>HTML+CSS+JS, Siła hasła (c)by Jan T. Biernat</TITLE>
+<STYLE>
+body {
+  background-color     : silver;
+  background-image     : url('');
+  background-attachment: fixed;
+  font-family          : arial;
+  font-size            : 18pt;
+}
+</STYLE>
+</HEAD>
+<SCRIPT>
+function SilaHasla() {
+//SilaHasla - Funkcja sprawdza siłę hasła.
+  const Znaki = ['!', '@', '#', '$', '%', '^', '&', '*',
+                 '(', ')', '-', '_', '=', '+', '{', '}',
+                 '[', ']', ';', ':', '<', '>', '?', '/'];
+  var _Str = "", Info = "";
+  var _Znaki = [];
+  _Str = document.getElementById('EditorHaslo').value;
+  for(var I = 0; I < 5; I++) { _Znaki[I] = 0; }
+  if(_Str.trim() != "") {
+    for(var I = 0; I < _Str.length; I++) {
+      if((_Str[I] >= "a") && (_Str[I] < "{")) { _Znaki[0] = 1; } //Znaki małe od "a" do "z".
+      if((_Str[I] > '@') && (_Str[I] < '[')) { _Znaki[1] = 1; }  //Znaki DUŻE od "A" do "Z".
+      if((_Str[I] > '/') && (_Str[I] < ':')) { _Znaki[2] = 1; }  //Cyfry od 0 do 9.
+      if(_Str[I] == ' ') { _Znaki[3] = 1; }                      //Czy jest znak pusty (tzw. spacja).
+      //Sprawdź, czy jest minimum 1 znak specjalny.
+        for(var Z = 0; Z < Znaki.length; Z++) { 
+          if(_Str[I] == Znaki[Z]) { _Znaki[4] = 1; } 
+        } 
+    }
+    Info = '<BR />1) Minimum 1 litera mala: '+Number(_Znaki[0])
+          +'<BR />2) Minimum 1 litera duza: '+Number(_Znaki[1])
+          +'<BR />3) Minimum 1 cyfra: '+Number(_Znaki[2])
+          +'<BR />4) Minimum 1 znak pusty: '+Number(_Znaki[3])
+          +'<BR />5) Minimum 1 znak specjalny: '+Number(_Znaki[4])
+          +'<BR />6) Długość hasła: '+Number(_Str.length);
+  } else { Info = "INFO -?Wpisz hasło!"; }
+  document.getElementById('info_haslo').innerHTML = Info;
+}
+</SCRIPT>
+<BODY>
+<FONT STYLE="font-size:8pt;">
+  HTML+CSS+JS, Siła hasła (c)by Jan Biernat
+</FONT><BR /><BR />
+    <FORM NAME="haslo" ACTION="">
+        <TABLE BORDER="0">
+            <TR><TD STYLE="font-size:24pt;">Podaj hasło</TD>
+                <TD STYLE="font-size:24pt;">:</TD>
+                <TD><INPUT TYPE="text" ID="EditorHaslo" onKeyUp="SilaHasla();" STYLE="width:600px; height:45px; font-size:24pt;" AUTOFOCUS /></TD>
+                <TD><INPUT TYPE="button" VALUE="Sprawdź" onClick="SilaHasla();" STYLE="height:45px; font-size:24pt;" /></TD>
+            </TR>
+            <TR><TD ID="info_haslo" COLSPAN="4" STYLE="text-align:left; font-size:24pt; padding-left:10px;">
+                    Podaj hasło.
+                </TD>
+            </TR>
+        </TABLE>
+    </FORM>
+</BODY>
+</HTML>
+<!--
+Hasło – to ciąg znaków alfanumerycznych służących
+        do zabezpieczenia systemów operacyjnych,
+        dokumentów, baz danych, e-mail, portali, itp.
+        przed niepowołanymi osobami.
+
+WAŻNE! Hasło powinno pozostać znane wyłącznie osobie,
+       która je ustala. Nie należy go udostępniać,
+       ani zapisywać w miejscach dostępnych
+       dla innych użytkowników.
+
+W celu utworzenia bezpiecznego hasła,
+należy spełnić następujące warunki:
+1. Hasło musi składać się z minimum 8 znaków
+   (im więcej tym lepiej).
+2. Hasło nie może zawierać w sobie wyrazów
+   (znaków, liczb), które są z Tobą powiązane
+   (np. daty urodzenia, nazwy Twojej usługi,
+    imiona Twoich dzieci, Twoich inicjałów, itp.).
+3. Hasło powinno zawierać zarówno małe jak i duże litery.
+4. Hasło powinno zawierać cyfry
+   (minimum 1 cyfrę – im więcej tym lepiej).
+5. Hasło powinno zawierać znaki specjalne
+   (minimum 1 znak – im więcej tym lepiej).
+6. Hasło nie może zawierać polskich znaków.
+
+Dobrą praktyką stosowaną przy tworzeniu haseł jest:
+1. Kombinacja kilku słów, można je oddzielać
+   znakami specjalnymi.
+2. Kombinacja dużych i małych liter.
+3. Zastępowanie popularnych liter, znakami specjalnymi
+   (np. a-@, i-1, o=0, s=% itp.).
+4. Stosowanie znaków specjalnych naprzemiennie
+   z literami i cyframi.
+5. Słowa zapisane z celowym błędem, ale nadal łatwe
+   do zapamiętania lub łatwe do skojarzenia.
+6. Używanie kombinacji które nie mają sensu,
+   ale ze względu na charakterystyczny wydźwięk
+   kojarzone są i wpadają w pamięć, mogą zostać
+   uzupełnione dodatkowymi znakami (np. "dzaba[kum]").
+
+WAŻNE! Nigdy nie podawaj swojego hasła, jeśli
+       nie znasz witryny lub jeśli jej wygląd czy
+       oferowane w zamian korzyści, budzą Twoje wątpliwości.
+
+Czego nie stosować przy tworzeniu haseł?
+Bardzo duża ilość haseł używanych w sieci Internet
+przez użytkowników to podstawowy ciąg znaków,
+który często bezpośrednio związany jest z informacjami
+o jego właścicielu. Zawierają one takie dane jak daty
+urodzenia, numery PESEL, imiona czy popularną kombinację
+kolejnych klawiszy z klawiatury.
+
+Należy unikać haseł, które zawierają:
+1. Frazę użytą do tworzenia loginu.
+2. Informacje o użytkowniku
+   (np. imion, nazwisk, ważnych dat).
+3. Wskazujących na otoczenie użytkownika,
+   ulubionych przedmiotów, imion, zwierząt
+   i miejsc.
+4. Składających się z samych liter lub cyfr
+   (np. abcdefgh, 123654 itp.).
+5. Imiona, nazwiska lub nazwy znanych postaci
+   lub popularnych słów (np. kasia1, batman2 itp.).
+6. Sekwencje odczytywane z klawiatury
+   (np. 123456, qwerty itp.).
+7. Krótszych niż 8 znaków.
+
+Jak dbać o hasło?
+1. Dobre hasło zapewnia bezpieczeństwo danych,
+   ale bezpieczeństwo hasła jest zależne głównie
+   od twórcy hasła.
+   Zwracaj szczególną uwagę na otoczenie Twojej pracy
+   i bezpieczeństwo komputera. Unikaj zapisywania haseł
+   na karteczkach, w notatnikach czy innych źródłach,
+   które mogą dostać się w niepowołane ręce
+   lub są ogólnodostępne.
+   Nie zapisuj haseł w pliku tekstowym
+   (czy w innym pliku np. MS Word).
+2. Nie podawaj haseł osobom trzecim.
+3. Nie podawaj metody tworzenia hasła.
+4. Nie podawaj hasła na żądanie serwisu
+   (np. przesłane e-mailem lub polecenie
+    wydane przez telefon).
+5. Nie używaj słów ze słownika
+   (jakiegokolwiek języka, włączając
+    w to zapis od tyłu i typowe błędy pisowni).
+6. W serwisach internetowych jak banki,
+   systemy płatności, narzędzia do pracy
+   i bazy danych, korzystaj z silnych haseł,
+   pamiętając o ich aktualizacji
+   (czyli częstej zmianie).
+7. W serwisach internetowych o drugorzędnym
+   znaczeniu, np. przypadkowe fora, jednorazowe
+   rejestracje itp. stosuj hasła inne niż
+   w punkcie wyżej.
+8. Jedna witryna, program, system to jedno hasło.
+   W przypadku jego złamania, pozostałe dane
+   są nadal bezpieczne.
+9. Wprowadź w domu lub w firmie małą politykę
+   bezpieczeństwa, która będzie np. zakładała
+   regularną zmianę hasła, zgodnie z wcześniejszymi
+   wskazanymi i wymaganiami.
+10. Używaj programów antywirusowych, które
+    zapewnią wyeliminowanie ryzyka przechwycenia
+    haseł.
+11. Nie używaj komputerów nad którymi nie masz
+    kontroli, do zalogowania się gdziekolwiek
+    (np. komputerów w kafejkach, na konferencjach,
+    lotniskach).
+12. Jeżeli logujesz się np. do banku lub innego
+    ważnego dla Ciebie konta, to rob to zawsze
+    na swoim laptopie.
+-->
