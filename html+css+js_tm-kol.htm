@@ -1,0 +1,54 @@
+﻿<HTML><HEAD><META CHARSET="utf-8" />
+<TITLE>Tabliczka mnożenia w kolumnach. (c)by Jan T. Biernat</TITLE>
+<STYLE>
+body {
+  background-color:#c0c0c0;
+  font-family     :verdana;
+  font-size       :16pt;
+  color           :black;
+}
+</STYLE>
+</HEAD>
+<SCRIPT>
+function TabliczkaMnozenia() {
+  //Deklaracja zmiennej tekstowe "T" i przypisanie do niej danych pobranych z klawiatury.
+    var T = ""; T = document.getElementById('fkEdit').value;
+  //Deklaracja zmiennych.
+    var Tabliczka = "", Kol1 = "", Kol2 = "";
+  //Generowanie tabliczki mnożenia.
+    if(T.trim() != "") {
+      if((Number(T) > 0) && (Number(T) < 11)) {
+        document.getElementById('fkWynik').value = "Podana liczba to "+T+".";
+        //Wyświetl tabliczkę mnożenia.
+          for(var I = 1; I < 11; I++) {
+            Tabliczka = Tabliczka+'<TR><TD>&nbsp;'+T+'&nbsp;</TD>'
+                                 +'<TD>&nbsp;*&nbsp;</TD>'
+                                 +'<TD STYLE="text-align:right;">&nbsp;'+(I)+'&nbsp;</TD>'
+                                 +'<TD>&nbsp;=&nbsp;</TD>'
+                                 +'<TD STYLE="text-align:right;">&nbsp;'+(Number(T)*I)+'&nbsp;</TD></TR>';
+          }
+          document.getElementById('pokaz-tabele').innerHTML = '<TABLE BORDER="0"'
+                                                             +' STYLE="font-size:13pt;">'+Tabliczka+'</TABLE>';
+      } else {
+               //Wyczyść dokument, gdy podana liczba przekracza zakres.
+                 document.getElementById('pokaz-tabele').innerHTML = "";
+                 document.getElementById('fkWynik').value = "BŁĄD -?Przekroczony zakres!";
+             }
+    } else { document.getElementById('fkWynik').value = "BŁĄD -?Proszę wprowadzić liczbę!"; }
+    document.getElementById('fkEdit').focus();
+} 
+</SCRIPT>
+<BODY>
+<FONT STYLE="font-size:8pt;">Tabliczka mnożenia w kolumnach.</FONT><BR /><BR />
+  <FORM NAME="formularz1" ACTION="">
+        <TABLE BORDER="0">
+               <TR><TD>&nbsp;Zakres:
+                       &nbsp;<INPUT TYPE="number" ID="fkEdit" STYLE="height:24px; width:55px;" />
+                       &nbsp;<INPUT TYPE="button" ID="fkWykonaj" VALUE="Pokaż" onClick="TabliczkaMnozenia();" />&nbsp;</TD>
+               </TR>
+               <TR><TD>&nbsp;<INPUT TYPE="text" ID="fkWynik" STYLE="width:288px; height:24px;" READONLY />&nbsp;</TD></TR>
+        </TABLE>
+  </FORM>
+  <P ID="pokaz-tabele">&nbsp;</P>
+</BODY>
+</HTML>
