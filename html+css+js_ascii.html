@@ -1,0 +1,88 @@
+<HTML><HEAD><META CHARSET="utf-8" />
+<TITLE>HTML+CSS+JS - Tablica ASCII (c)by Jan Biernat</TITLE>
+<STYLE>
+body {
+  background-color     : gray;
+  background-image     : url('');
+  background-attachment: fixed;
+  font-family          : verdana;
+  font-size            : 16pt;
+}
+table {
+  border          : 1px solid black;
+  background-color: white;
+  border-collapse : collapse;
+  font-size       : 35pt;
+}
+td {
+  border       : 1px solid black;
+  cursor       : pointer;
+  padding      : 8px;
+  padding-left : 15px;
+  padding-right: 15px;
+  text-align   : center;
+}
+.tabela_wiersz { background:white; } 
+.tabela_wiersz:hover { background-color:#ff9966; } 
+</STYLE>
+</HEAD>
+<SCRIPT>
+function ZeraPrzedLiczba(Str, Ile) {
+//ZeraPrzedLiczba - Funkcja dodaje na początku zera wiodące.
+  var Zera = "";
+  if(Ile > Str.length) {
+    for(var I = 0; I < (Ile-Str.length); I++) { Zera+= '0'; }
+    return Zera+Str;
+  } else { return Str; }
+}
+function formatujLiczbeBIN(Str) {
+//formatujLiczbeBIN - Funkcja formatuje liczbę w systemie binarnym (np. 11111111 => 1111 1111).
+  var Licznik = 0;
+  var Znaki = "";
+  for(var I = Str.length-1; I > -1; I--) {
+    Znaki = Str[I]+Znaki;
+    Licznik++;
+    if(Licznik > 3) {
+      Licznik = 0;
+      Znaki = ' '+Znaki;
+    }
+  }
+  return Znaki.trim();
+}
+function TablicaASCII() {
+//TablicaASCII - Funkcja generuje tablicę kodów ASCII.
+  var Nr = 0;
+  var Wiersz = "", Spacja = "";
+  for(var I = 0; I < 95; I++) {
+    Nr = 0; Nr = I+32;
+    Spacja = "";
+    if(Nr == 32) { Spacja = "Spacja"; }
+    else { Spacja = String.fromCharCode(Nr); }
+    Wiersz = "";
+    Wiersz = '<TR CLASS="tabela_wiersz"><TD>'+Spacja+'</TD>'
+            +'    <TD>'+Nr+'</TD>'
+            +'    <TD>'+Nr.toString(16).toUpperCase()+'</TD>'
+            +'    <TD>'+formatujLiczbeBIN(ZeraPrzedLiczba(Nr.toString(2), 8))+'</TD>'
+            +'</TR>';
+    document.write(Wiersz);
+  }
+}
+</SCRIPT>
+<BODY>
+    <FONT STYLE="font-size:6pt;">
+        HTML+CSS+JS - Tablica ASCII (c)by Jan Biernat
+    </FONT><BR /><BR />
+    <CENTER>
+    <TABLE>
+        <CAPTION STYLE="font-size:18pt;">Tablica ASCII</CAPTION>
+        <TR STYLE="font-weight:bold;">
+            <TD>Znak</TD>
+            <TD>Kod</TD>
+            <TD>HEX</TD>
+            <TD>BIN</TD>
+        </TR>
+        <SCRIPT>TablicaASCII();</SCRIPT>
+    </TABLE>
+    </CENTER>
+</BODY>
+</HTML>
