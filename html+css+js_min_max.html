@@ -1,0 +1,78 @@
+<HTML><HEAD><META CHARSET="utf-8" />
+<META NAME="keywords" CONTENT="Liczba, maksymalna, minimalna, min, max" />
+<META NAME="description" CONTENT="Wyszukanie liczby najmniejszej i największej z podanych liczb." />
+<LINK REL="stylesheet" HREF="" />
+<LINK REL="shortcut icon" HREF="" />
+<SCRIPT SRC=""></SCRIPT>
+<TITLE>HTML+CSS+JS, Liczba MIN i MAX (c)by Jan T. Biernat</TITLE>
+<STYLE>
+body {
+  background-color     : #99ccff;
+  background-image     : url('');
+  background-attachment: fixed;
+  font-family          : arial;
+  font-size            : 13pt;
+}
+table {
+  bolder          : 0px solid black;
+  border-collapse : collapse;
+}
+tr {
+  background-color: #99ccff;
+  border          : 0px solid black;
+  font-size       : 26pt;
+}
+.KEdytorek {
+  width    : 200px;
+  height   : 45px;
+  font-size: 26pt;
+}
+.KPrzycisk {
+  width    : 200px;
+  height   : 45px;
+  font-size: 24pt;
+}
+</STYLE>
+</HEAD>
+<SCRIPT>
+var Min = 0;
+var Maks = 0;
+function LiczbaMinMax() {
+//LiczbaMinMax - Funkcja wyszukuje liczbę najmniejszą i największą z podanych liczb.
+  var Cyfry = "";
+  var Liczba = 0;
+  var _Wynik = "";
+  Cyfry = document.getElementById('Edytorek').value;
+  if(Cyfry.trim() != "") {
+    if(isNaN(Cyfry.trim()) == false) {
+      Liczba = parseInt(Cyfry.trim());
+      if((Min == 0) && (Maks == 0)) { Min = Liczba; Maks = Min; }
+      else {
+             if(Min > Liczba) { Min = Liczba; }
+             if(Maks < Liczba) { Maks = Liczba; }
+           }
+      _Wynik = '<BR />Podano liczbę: '+Liczba.toString()
+              +'<BR />Liczba najmniejsza to: '+Min.toString()
+              +'<BR />Liczba największa to : '+Maks.toString();
+      document.getElementById('Wyniki').innerHTML = _Wynik;
+    }
+  }
+} //LiczbaMinMax: Koniec.
+</SCRIPT>
+<BODY>
+<FONT STYLE="font-size:6pt;">HTML+CSS+JS, Liczba MIN i MAX.</FONT>
+<BR /><BR />
+<CENTER>
+    <FORM NAME="formularz" ACTION="">
+        <TABLE>
+            <TR><TD>Liczba</TD>
+                <TD>:</TD>
+                <TD><INPUT TYPE="number" ID="Edytorek" CLASS="KEdytorek" VALUE="" AUTOFOCUS /></TD>
+                <TD><INPUT TYPE="button" ID="Przycisk" CLASS="KPrzycisk" VALUE="Wykonaj" onClick= "LiczbaMinMax(); document.getElementById('Edytorek').focus();" /></TD>
+            </TR>
+            <TR><TD COLSPAN="4" ID="Wyniki"></TD></TR>
+        </TABLE>
+    </FORM>
+</CENTER>
+</BODY>
+</HTML>
