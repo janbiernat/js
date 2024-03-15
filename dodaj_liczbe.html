@@ -1,0 +1,71 @@
+<HTML><HEAD><META CHARSET="utf-8" />
+<META NAME="keywords" CONTENT="suma, liczby, dodawanie, liczb" />
+<META NAME="description" CONTENT="Sumowanie podanych liczb." />
+<LINK REL="stylesheet" HREF="" />
+<LINK REL="shortcut icon" HREF="" />
+<SCRIPT SRC=""></SCRIPT>
+<TITLE>HTML+CSS+JS, Dodaj lub odejmij podaną liczbę (c)by Jan T. Biernat</TITLE>
+<STYLE>
+body {
+  background-color     : silver;
+  background-image     : url('');
+  background-attachment: fixed;
+  font-family          : arial;
+  font-size            : 13pt;
+}
+td { text-align:center; }
+select {
+  width     : 330px;
+  font-size : 24pt;
+  text-align: right;
+}
+.KEdytorek {
+  width    : 200px;
+  height   : 45px;
+  font-size: 26pt;
+}
+.KPrzycisk {
+  width    : 130px;
+  height   : 45px;
+  font-size: 24pt;
+}
+</STYLE>
+</HEAD>
+<SCRIPT>
+function LiczbaDodajOdejmij() {
+//LiczbaDodajOdejmij - Funkcja dodaje lub odejmuje podaną liczbę.
+  var _T = "";
+  var A = 0, B = 0;
+  var Liczba = ""; Liczba = document.getElementById('Edytorek').value;
+  Liczba = Liczba.trim();
+  if(Liczba != "") {
+    TabDane[TabDane.length] = Liczba;
+    if(TabDane.length > 1) {
+      A = parseInt(TabDane[TabDane.length-2]);
+      B = parseInt(TabDane[TabDane.length-1]);
+      TabDane[TabDane.length-1] = '+'+TabDane[TabDane.length-1];
+      TabDane[TabDane.length] = "---------";
+      TabDane[TabDane.length] = (A+B).toString();
+    }
+    for(var I = 0; I < TabDane.length; I++) {
+      _T+= '<OPTION >'+TabDane[I]+'</OPTION>';
+    }
+    document.getElementById('DaneDodaj').innerHTML = _T;
+  }
+}
+//Deklaracja zmiennej tablicowej.
+  var TabDane = [];
+</SCRIPT>
+<BODY>
+<CENTER>
+    <FORM NAME="formularz">
+        <TABLE BORDER="0">
+            <TR><TD COLSPAN="2"><SELECT SIZE="14" NAME="Dane" ID="DaneDodaj"></SELECT></TD></TR>
+            <TR><TD><INPUT TYPE="number" ID="Edytorek" CLASS="KEdytorek" VALUE="" AUTOFOCUS /></TD>
+                <TD><INPUT TYPE="button" ID="Przycisk" CLASS="KPrzycisk" VALUE="Dodaj" onClick= "LiczbaDodajOdejmij(); document.getElementById('Edytorek').focus();" /></TD>
+            </TR>
+        </TABLE>
+    </FORM>
+</CENTER>
+</BODY>
+</HTML>
