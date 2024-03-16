@@ -1,0 +1,71 @@
+<HTML><HEAD><META CHARSET="utf-8" />
+<META NAME="keywords" CONTENT="Liczba, maksymalna, minimalna, min, max" />
+<META NAME="description" CONTENT="Wyszukanie liczby najmniejszej i największej z podanych liczb. Wersja 2." />
+<LINK REL="stylesheet" HREF="" />
+<LINK REL="shortcut icon" HREF="" />
+<SCRIPT SRC=""></SCRIPT>
+<TITLE>HTML+CSS+JS, Liczba MIN i MAX, wersja 2 (c)by Jan T. Biernat</TITLE>
+<STYLE>
+body {
+  background-color     : #99ccff;
+  background-image     : url('');
+  background-attachment: fixed;
+  font-family          : arial;
+  font-size            : 13pt;
+}
+td { font-size:24pt; }
+.KEdytorek {
+  width    : 200px;
+  height   : 45px;
+  font-size: 26pt;
+}
+.KPrzycisk {
+  width    : 150px;
+  height   : 45px;
+  font-size: 24pt;
+}
+</STYLE>
+</HEAD>
+<SCRIPT>
+function MinMaks2() {
+//MinMaks2 - Funkcja wyszukuje najmniejszą i największą liczbę z podanych liczb.
+  var _W = "";
+  var Wartosc = 0, Min = 0, Maks = 0;
+  var Liczba = ""; Liczba = document.getElementById('Edytorek').value;
+  Liczba = Liczba.trim();
+  if(Liczba != "") {
+    TabLiczb[TabLiczb.length] = Liczba;
+    for(var I = 0; I < TabLiczb.length; I++) {
+       Wartosc = parseInt(TabLiczb[I]);
+       if((Min == 0) && (Maks == 0)) { Min = Wartosc; Maks = Min; }
+       else {
+              if(Min > Wartosc) { Min = Wartosc; }
+              if(Maks < Wartosc) { Maks = Wartosc; }
+            }
+      _W+= TabLiczb[I]+'<BR />'; 
+    }
+    document.getElementById('ListaLiczb').innerHTML = _W;
+    document.getElementById('Wyniki').innerHTML = '<BR />Liczba najmniejsza to: '+Min.toString()
+                                                 +'<BR />Liczba największa to  : '+Maks.toString();
+  }
+}
+var TabLiczb = []; //Deklaracja globalnej zmiennej tablicowej n-elementowej.
+</SCRIPT>
+<BODY>
+<FONT STYLE="font-size:6pt;">HTML+CSS+JS, Liczba MIN i MAX, wersja 2.</FONT>
+<BR /><BR />
+<CENTER>
+    <FORM NAME="formularz" ACTION="">
+        <TABLE BORDER="0">
+            <TR><TD COLSPAN="4" STYLE="text-align:right;" ID="ListaLiczb">Tu będą pojawiać <BR />się podawane liczby!</TD></TR>
+            <TR><TD>Liczba</TD>
+                <TD>:</TD>
+                <TD><INPUT TYPE="number" ID="Edytorek" CLASS="KEdytorek" VALUE="" AUTOFOCUS /></TD>
+                <TD><INPUT TYPE="button" ID="Przycisk" CLASS="KPrzycisk" VALUE="Wykonaj" onClick= "MinMaks2(); document.getElementById('Edytorek').focus();" /></TD>
+            </TR>
+            <TR><TD COLSPAN="4" ID="Wyniki"></TD></TR>
+        </TABLE>
+    </FORM>
+</CENTER>
+</BODY>
+</HTML>
