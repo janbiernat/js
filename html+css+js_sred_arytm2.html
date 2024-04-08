@@ -1,0 +1,144 @@
+<HTML><HEAD><META CHARSET="utf-8" />
+<META NAME="keywords" CONTENT="Przedmioty, Średnia arytmetyczna, średnia, arytmetyczna" />
+<META NAME="description" CONTENT="Aplikacja online oblicza średnią arytmetyczną z podanych przedmiotów." />
+<LINK REL="stylesheet" HREF="" />
+<LINK REL="shortcut icon" HREF="" />
+<SCRIPT SRC=""></SCRIPT>
+<TITLE>HTML+CSS+JS, Średnia arytmetyczna przedmiotów, wersja 2 (c)by Jan T. Biernat</TITLE>
+<STYLE>
+body {
+  background-color     : #99ccff;
+  background-image     : url('');
+  background-attachment: fixed;
+  font-family          : arial;
+  font-size            : 13pt;
+}
+td { font-size:24pt; }
+.KEdytorek {
+  width    : 900px;
+  height   : 45px;
+  font-size: 26pt;
+}
+.KLista {
+  width    : 90px;
+  height   : 45px;
+  font-size: 26pt;
+}
+.KPrzycisk {
+  width    : 45px;
+  height   : 45px;
+  font-size: 24pt;
+}
+</STYLE>
+</HEAD>
+<SCRIPT>
+function FLiczby(L = "") {
+//FLiczby - Formatuje liczbę do 2 miejsc po przecinku, np. "5.3445 -> 5,34".
+  var I = 0;
+  L = L.trim();
+  if(L != "") {
+    L = L.replace('.', ',');
+    for(I = 0; I < L.length; I++) {
+      if(L[I] == ',') { I+= 3; break; }
+    }
+    return L.substr(0, I);
+  } else { return 'BŁĄD -?Brak liczby!'; }
+}
+function SredniaArytmetyczna() {
+//SredniaArytmetyczna - Funkcja oblicza średnią arytmetyczną z podanych ocen.
+  var Przedmiot = "";
+  var Ocena = "";
+  var _Rezultat = "";
+  var Licznik = 0, Suma = 0;
+  Przedmiot = document.getElementById('FK_Przedmiot').value;
+  Ocena = document.getElementById('FK_Ocena').value;
+  Przedmiot = Przedmiot.trim();
+  Ocena = Ocena.trim();
+  //Wprowadź dane do tablic.
+    if((Przedmiot != "") && (Ocena != "")) {
+      TSredArytmP[TSredArytmP.length] = Przedmiot;
+      TSredArytmO[TSredArytmO.length] = Ocena;
+    }
+  //Wyświetl przedmioty i oceny na ekranie.
+    for(var I = 0; I < TSredArytmP.length; I++) {
+      if((TSredArytmP[I] != "") && (TSredArytmO[I] != "")) {
+        Licznik++; Suma+= parseInt(TSredArytmO[I]);
+        _Rezultat+= '<TR>'
+                       +'<TD STYLE="text-align:right; width:88px;">'+Licznik.toString()+'.&nbsp;</TD>'
+                       +'<TD><INPUT TYPE="text" CLASS="KEdytorek" STYLE="width:812px;" VALUE="'+TSredArytmP[I]+'" READONLY /></TD>'
+                       +'<TD><INPUT TYPE="text" CLASS="KLista" STYLE="text-align:right;" VALUE="'+TSredArytmO[I]+'" READONLY /></TD>'
+                       +'<TD><INPUT TYPE="button" VALUE="-" TITLE="Usuń przedmiot oraz ocenę." CLASS="KPrzycisk" onClick="PrzedmiotOcenaUsun('+I+');" ID="FK_Usun" /></TD>'
+                   +'</TR>';
+      }
+    }
+    document.getElementById('FK_ListaPrzedmOceny').innerHTML = _Rezultat;
+  //Oblicz średnią arytmetyczną.
+    WSredArytm = 0;
+    if(Licznik > 0) {
+      WSredArytm = Suma/Licznik;
+    }
+    document.getElementById('srednia_ocen').innerHTML = 'Ilość przedmiotów: '+Licznik.toString()
+                                                       +', Średnia: '+FLiczby(WSredArytm.toString());
+  document.getElementById('FK_Ocena').value = "";
+  document.getElementById('FK_Przedmiot').value = "";
+  document.getElementById('FK_Przedmiot').focus();
+}
+function PrzedmiotOcenaUsun(Nr) {
+//PrzedmiotOcenaUsun - Usuwa wybrany przedmiot i ocenę.
+  if(Nr > -1) {
+    TSredArytmP[Nr] = "";
+    TSredArytmO[Nr] = "";
+  }
+  SredniaArytmetyczna();
+}
+var TSredArytmP = [], TSredArytmO = [];
+</SCRIPT>
+<BODY>
+<FONT STYLE="font-size:6pt;">HTML+CSS+JS, Średnia arytmetyczna przedmiotów, wersja 2.</FONT>
+<BR /><BR />
+<CENTER>
+    <FORM NAME="formularz" ACTION="">
+        <TABLE BORDER="0" ID="FK_ListaPrzedmOceny">
+        </TABLE>
+        <TABLE BORDER="0">
+            <TR><TD><INPUT TYPE="text" LIST="przedmioty" CLASS="KEdytorek" ID="FK_Przedmiot" AUTOFOCUS />
+                            <DATALIST ID="przedmioty">
+                                <OPTION VALUE="Aplikacja desktopowe">
+                                <OPTION VALUE="Aplikacje mobilne">
+                                <OPTION VALUE="Aplikacje online">
+                                <OPTION VALUE="Astronomia">
+                                <OPTION VALUE="Bazy danych">
+                                <OPTION VALUE="Fizyka">
+                                <OPTION VALUE="Historia">
+                                <OPTION VALUE="Informatyka">
+                                <OPTION VALUE="Język angielski">
+                                <OPTION VALUE="Język polski">
+                                <OPTION VALUE="Matematyka">
+                                <OPTION VALUE="Podstawy projektowania stron internetowych">
+                                <OPTION VALUE="Programowanie Strukturalne i Obiektowe">
+                                <OPTION VALUE="Projektowanie CAD">
+                                <OPTION VALUE="Rysunek techniczny">
+                                <OPTION VALUE="Sieci komputerowe">
+                                <OPTION VALUE="Sieci neuronowe">
+                                <OPTION VALUE="Sztuczna inteligencja">
+                                <OPTION VALUE="Urządzenia Techniki Komputerowej">
+                            </DATALIST>
+                </TD>
+                <TD><SELECT CLASS="KLista" ID="FK_Ocena">
+                        <OPTION>&nbsp;</OPTION>
+                        <OPTION>1</OPTION>
+                        <OPTION>2</OPTION>
+                        <OPTION>3</OPTION>
+                        <OPTION>4</OPTION>
+                        <OPTION>5</OPTION>
+                        <OPTION>6</OPTION>
+                    </SELECT>
+                </TD>
+                <TD><INPUT TYPE="button" VALUE="+" TITLE="Dodaj przedmiot i ocenę do wyliczenia średniej ocen." CLASS="KPrzycisk" onClick="SredniaArytmetyczna();" ID="FK_Dodaj" /></TD>
+            </TR>
+            <TR><TD COLSPAN="3" STYLE="text-align:right;" ID="srednia_ocen">Tu będzie wyświetlona średnia ocen!</TD></TR>
+        </TABLE>
+    </FORM>
+</CENTER>
+</BODY>
+</HTML>
