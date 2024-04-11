@@ -1,0 +1,155 @@
+<HTML><HEAD><META CHARSET="utf-8" />
+<META NAME="keywords" CONTENT="Tabliczka mnożenia, mnożenie, tabliczka" />
+<META NAME="description" CONTENT="Aplikacja online. Nauka tabliczki mnożenia według kolumn." />
+<LINK REL="stylesheet" HREF="" />
+<LINK REL="shortcut icon" HREF="" />
+<SCRIPT SRC=""></SCRIPT>
+<TITLE>HTML+CSS+JS, Nauka tabliczki mnożenia według kolumn (c)by Jan T. Biernat</TITLE>
+<STYLE>
+body {
+  background-color     : #99ccff;
+  background-image     : url('');
+  background-attachment: fixed;
+  font-family          : arial;
+  font-size            : 13pt;
+}
+.tytul {
+  font-size  : 40pt;
+  font-weight: bold;
+  font-style : italic;
+}
+.naglowek {
+  font-family: 20pt;
+  font-style : italic;
+  text-align : center;
+}
+td { 
+  text-align: right;
+  font-size : 24pt;
+}
+.td_znaki {
+  width     : 40px;
+  text-align: center;
+}
+p {
+  font-size  : 23pt;
+  font-weight: bold;
+}
+.KEdytorek {
+  width    : 110px;
+  height   : 45px;
+  font-size: 26pt;
+}
+.KPrzycisk {
+  width    : 155px;
+  height   : 45px;
+  font-size: 24pt;
+}
+</STYLE>
+</HEAD>
+<SCRIPT>
+function TM_Nauka() {
+//TM_Nauka - Nauka tabliczki mnożenia według kolumn.
+  const OcenaKolor = '<SPAN STYLE="color:';
+  var _Rezultat = "", Edytorek = "";
+  var Komentarz = "", _Raport = "", Ocena = "";
+  var A = 0, B = 0, Wynik = 0;
+  var Licznik = 0, OdpIle = 0; OdpD = 0, OdpZ = 0;
+  var ProcentOdpD = 0;
+  for(A = 1; A < 11; A++) {
+    _Rezultat+= '<TABLE BORDER="0">'
+                     +'<TR><TD COLSPAN="6" CLASS="naglowek">'
+                             +'Kolumna nr '+A.toString()
+                         +'</TD>'
+                     +'</TR>';
+    B = 0;
+    for(B = 1; B < 11; B++) {
+      Wynik = 0; Wynik = A*B;
+      if(Wynik > 5) { break; }
+      else {
+             Komentarz = "?";
+             if(TM_TabWyniki[Licznik].trim() != "") {
+               if(parseInt(TM_TabWyniki[Licznik].trim()) == Wynik) { OdpD++; Komentarz = 'Dobrze!'; }
+               else { OdpZ++; Komentarz = '<FONT STYLE="color:red;">Źle!</FONT>'; }
+             }
+             Edytorek = "";
+             if(TM_TabWyniki[Licznik].trim() == "") {
+               Edytorek = '<INPUT TYPE="number" ID="FK_Wynik'+Licznik.toString()+'" PLACEHOLDER="?" MAXLENGTH="3" CLASS="KEdytorek" />'
+                         +'<INPUT TYPE="button" VALUE="Sprawdź" onClick="TM_PobierzDane('+Licznik.toString()+');" CLASS="KPrzycisk" />';
+             } else { Edytorek = TM_TabWyniki[Licznik]; }
+             _Rezultat+= '<TR>'
+                            +'<TD>'+A.toString()
+                            +'<TD CLASS="td_znaki">x</TD>'
+                            +'<TD>'+B.toString()+'</TD>'
+                            +'<TD CLASS="td_znaki">=</TD>'
+                            +'<TD>'+Edytorek+'</TD>'
+                            +'<TD STYLE="padding-left:15px;">'+Komentarz+'</TD>'
+                        +'</TR>';
+             Licznik++;
+           }
+    }
+    _Rezultat+= '</TABLE><BR />';
+  }
+  //Raport.
+    OdpIle = 0; OdpIle = OdpD+OdpZ;
+    ProcentOdpD = 0; 
+    if(OdpIle > 0) { ProcentOdpD = Math.round(OdpD*100/OdpIle); }
+    Ocena = "?";
+    if(OdpIle > 0) {
+      if(ProcentOdpD > 95) Ocena = OcenaKolor+'blue;">Bardzo dobry (5.0)</SPAN>';
+      else if(ProcentOdpD > 80) Ocena = OcenaKolor+'green;">Dobry (4.0)</SPAN>'; 
+           else if(ProcentOdpD > 70) Ocena = OcenaKolor+'brown;">Dostateczny (3.0)</SPAN>';
+                else if(ProcentOdpD > 50) Ocena = OcenaKolor+'black;">Mierny (2.0)</SPAN>';
+                     else if(ProcentOdpD <= 50) Ocena = OcenaKolor+'red;">Jedynka (1.0)</SPAN>';
+    }
+    _Raport = '<TABLE BORDER="0">'
+                   +'<TR><TD COLSPAN="3" STYLE="font-weight:bold; text-align:center;">Raport</TD></TR>'
+                   +'<TR>'
+                       +'<TD>Ilość pytań</TD>'
+                       +'<TD>:</TD>'
+                       +'<TD>'+OdpIle.toString()+'</TD>'
+                   +'</TR>'
+                   +'<TR>'
+                       +'<TD>Odpowiedzi dobrych</TD>'
+                       +'<TD>:</TD>'
+                       +'<TD STYLE="padding-left:15px;">'+OdpD.toString()+'('+ProcentOdpD.toString()+'%)</TD>'
+                   +'</TR>'
+                   +'<TR>'
+                       +'<TD>Odpowiedzi złych</TD>'
+                       +'<TD>:</TD>'
+                       +'<TD STYLE="padding-left:15px;">'+OdpZ.toString()+'('+(100-ProcentOdpD).toString()+'%)</TD>'
+                   +'</TR>'
+                   +'<TR>'
+                       +'<TD>Ocena</TD>'
+                       +'<TD>:</TD>'
+                       +'<TD STYLE="padding-left:15px;">'+Ocena+'</TD>'
+                   +'</TR>'
+             +'</TABLE>';
+  document.getElementById('TM_Kolumny').innerHTML = _Rezultat;
+  document.getElementById('TM_Raport').innerHTML = _Raport;
+}
+function TM_PobierzDane(Nr = 0) {
+//TM_PobierzDane - Pobiera dane od użytkownika.
+  var Dane = "";
+  Dane = document.getElementById('FK_Wynik'+Nr.toString()).value;
+  Dane = Dane.trim();
+  if(Dane != "") {
+    TM_TabWyniki[Nr] = Dane;
+    TM_Nauka();
+  }
+}
+var TM_TabWyniki = [];
+for(var I = 0; I < 100; I++) { TM_TabWyniki[I] = ""; }
+</SCRIPT>
+<BODY onLoad="TM_Nauka();">
+<FONT STYLE="font-size:6pt;">HTML+CSS+JS, Nauka tabliczki mnożenia według kolumn.</FONT>
+<BR /><BR />
+<CENTER>
+    <FONT CLASS="tytul">Tabliczka mnożenia</FONT><BR />
+    <FORM NAME="formularz" ACTION="">
+        <P ID="TM_Kolumny"></P>
+    </FORM>
+    <P ID="TM_Raport"></P>
+</CENTER>
+</BODY>
+</HTML>
