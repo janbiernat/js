@@ -1,0 +1,243 @@
+<HTML><HEAD><META CHARSET="utf-8" />
+<META NAME="keywords" CONTENT="Paragon, zakupy" />
+<META NAME="description" CONTENT="Aplikacja online 'Paragon' sumująca dokonane zakupy." />
+<LINK REL="stylesheet" HREF="" />
+<LINK REL="shortcut icon" HREF="" />
+<SCRIPT SRC=""></SCRIPT>
+<TITLE>HTML+CSS+JS, Paragon [uproszczona wersja] (c)by Jan T. Biernat</TITLE>
+<STYLE>
+body {
+  background-color     : #99ccff;
+  background-image     : url('');
+  background-attachment: fixed;
+  font-family          : arial;
+  font-size            : 13pt;
+}
+table {
+  border          : 1px solid black;
+  background-color: white;
+  border-collapse : collapse;
+  width           : 1200px;
+}
+td {
+  border          : 1px solid black;
+  font-size       : 18pt; 
+  padding-left    : 10px;
+  padding-right   : 10px;
+}
+.td_nag {
+  background-color: silver;
+  font-weight     : bold;
+  text-align      : center;
+}
+.td_Kwota { text-align:right; }
+.KEdytorek {
+  width    : 700px;
+  height   : 45px;
+  font-size: 26pt;
+}
+.KLista {
+  width    : 90px;
+  height   : 45px;
+  font-size: 26pt;
+}
+.KPrzycisk {
+  width    : 45px;
+  height   : 45px;
+  font-size: 24pt;
+}
+.KPrzyciskU {
+  width    : 45px;
+  height   : 45px;
+  font-size: 24pt;
+}
+</STYLE>
+</HEAD>
+<SCRIPT>
+function fl12_345(Str = "") {
+//fl12_345 - Formatuje liczbę całkowitą (np. 12345 > 12 345).
+  var Licznik = 0;
+  var Liczba = "";
+  Str = Str.trim();
+  if(Str != "") {
+    for(var I = Str.length-1; I > -1; I--) {
+      Licznik++;
+      Liczba = Str[I]+Liczba;
+      if(Licznik > 2) { Liczba = ' '+Liczba; Licznik = 0; }
+    }
+    return Liczba.trim();
+  } else { return ""; }
+}
+function FormatLiczby(Str = "", Przecinek = '.') {
+//FormatLiczby - FOrmatuje liczbę (np. 12345.67 -> 12 345.67).
+  var Kropka = 0;
+  var PoKropce = "";
+  Str = Str.trim();
+  if(Str != "") {
+    //Gdzie jest kropka?
+      for(var I = 0; I < Str.length; I++) {
+        if((Str[I] == '.') || (Str[I] == ',')) { Kropka = 0; Kropka = I; break; }
+      }
+    //Wartość.
+      PoKropce = ""; PoKropce = Str.substr(Kropka+1, 2);
+      if(PoKropce.length == 1) { PoKropce = PoKropce+'0'; }
+      if(Kropka > 0) { 
+        return fl12_345(Str.substr(0, Kropka))+Przecinek+PoKropce;
+      } else { return fl12_345(Str)+',00'; }
+  } else { return "?"; }
+}
+function Paragon() {
+//Paragon - Wyświetla listę zakupów wraz z cenami.
+  var _Rezultat = "";
+  var Licznik = 0, Cena = 0, VAT = 0;
+  var Ilosc = 0, Wartosc = 0, Suma = 0;
+  var VAT_TStawka = [], VAT_LSuma = [0, 0 ,0];
+  var TNazwaTowaru = "", TCena = "", TVat = "", TIlosc = "";
+  //Wprowadź dane do paragonu.
+    TNazwaTowaru = document.getElementById('FK_Towary').value;
+    TCena = document.getElementById('FK_Cena').value;
+    TVat = document.getElementById('FK_vat').value;
+    TIlosc = document.getElementById('FK_Ilosc').value;
+    TNazwaTowaru = TNazwaTowaru.trim();
+    TCena = TCena.trim();
+    TVat = TVat.trim();
+    TIlosc = TIlosc.trim();
+    if((TNazwaTowaru != "") && (TCena != "")
+    && (TVat != "") && (TIlosc != "")) {
+      TParagonNT[TParagonNT.length] = TNazwaTowaru;
+      TParagonCena[TParagonCena.length] = TCena;
+      TParagonVAT[TParagonVAT.length] = TVat;
+      TParagonIlosc[TParagonIlosc.length] = TIlosc;
+    }
+  //Wyświetl paragon z listą towarów i cen.
+    for(var I = 0; I < TParagonNT.length; I++) {
+      if((TParagonNT[I].trim() != "")
+      && (TParagonCena[I].trim() != "")
+      && (TParagonVAT[I].trim() != "")
+      && (TParagonIlosc[I].trim() != "")) {
+        Licznik++;
+        if(I == 0) {
+          _Rezultat+= '<TR>'
+                         +'<TD CLASS="td_nag" STYLE="width:70px;">LP</TD>'
+                         +'<TD CLASS="td_nag">Nazwa produktu</TD>'
+                         +'<TD CLASS="td_nag" STYLE="width:130px;">Cena (zł)</TD>'
+                         +'<TD CLASS="td_nag" STYLE="width:99px;">VAT (%)</TD>'
+                         +'<TD CLASS="td_nag" STYLE="width:55px;">Ilość</TD>'
+                         +'<TD CLASS="td_nag" STYLE="width:160px;">Wartość (zł)</TD>'
+                         +'<TD CLASS="td_nag" STYLE="width:77px;">Opcja</TD>'
+                     +'</TR>';
+        }
+        //Obliczenia.
+          Cena = 0; Cena = parseInt(TParagonCena[I]);
+          VAT = 0; VAT = parseInt(TParagonVAT[I]);
+          Ilosc = 0; Ilosc = parseInt(TParagonIlosc[I]);
+          Wartosc = 0; Wartosc = ((((Cena*VAT)/100)+Cena)*Ilosc);
+          Suma+= Wartosc;
+        //Generuj listę towarów.
+          _Rezultat+= '<TR>'
+                         +'<TD CLASS="td_Kwota">'+Licznik.toString()+'</TD>'
+                         +'<TD STYLE="text-align:left;">'+TParagonNT[I]+'</TD>'
+                         +'<TD CLASS="td_Kwota">'+FormatLiczby(TParagonCena[I], ',')+'</TD>'
+                         +'<TD CLASS="td_Kwota">'+TParagonVAT[I]+'</TD>'
+                         +'<TD CLASS="td_Kwota">'+TParagonIlosc[I]+'</TD>'
+                         +'<TD CLASS="td_Kwota">'+FormatLiczby(Wartosc.toString(), ',')+'</TD>'
+                         +'<TD CLASS="td_Kwota" STYLE="text-align:center;">'
+                              +'<INPUT TYPE="button" VALUE="-" TITLE="Usuń towar." CLASS="KPrzyciskU" onClick="ParagonUsunTowar('+I+');" ID="FK_Usun" />'
+                         +'</TD>'
+                     +'</TR>';
+        //Sumowanie wartości na podstawie stawki VAT.
+          if(TParagonVAT[I] == '23') {
+            VAT_TStawka[0] = TParagonVAT[I];
+            VAT_LSuma[0]+= Wartosc;
+          } else if(TParagonVAT[I] == '15') {
+                   VAT_TStawka[1] = TParagonVAT[I];
+                   VAT_LSuma[1]+= Wartosc;
+                 } else {
+                          VAT_TStawka[2] = TParagonVAT[I];
+                          VAT_LSuma[2]+= Wartosc;
+                        }
+      }
+    }
+    //Suma wszystkich zakupów.
+      if(Suma > 0) {
+        _Rezultat+= '<TR>'
+                       +'<TD CLASS="td_Kwota" COLSPAN="6" STYLE="border:0px solid white; font-size:22pt;">'+FormatLiczby(Suma.toString(), ',')+'</TD>'
+                       +'<TD CLASS="td_Kwota" STYLE="border:0px solid white;">&nbsp;</TD>'
+                   +'</TR>';
+        _Rezultat+= '<TR><TD COLSPAN="7" STYLE="border:0px solid white; height:100px;">&nbsp;</TD></TR>';
+        //Suma kwot według stawki VAT.
+          for(var I = 0; I < 3; I++) {
+            _Rezultat+= '<TR>'
+                           +'<TD CLASS="td_Kwota" COLSPAN="4" STYLE="border:0px solid white; font-size:22pt;">Stawka VAT</TD>'
+                           +'<TD CLASS="td_Kwota" STYLE="border:0px solid white; font-size:22pt;">&nbsp;'+VAT_TStawka[I]+'%:&nbsp;</TD>'
+                           +'<TD CLASS="td_Kwota" STYLE="border:0px solid white; font-size:22pt;">'+FormatLiczby(VAT_LSuma[I].toString(), ',')+'</TD>'
+                           +'<TD CLASS="td_Kwota" STYLE="border:0px solid white;">&nbsp;</TD>'
+                       +'</TR>';
+          }
+        _Rezultat+= '<TR><TD COLSPAN="7" STYLE="border:0px solid white; height:50px;">&nbsp;</TD></TR>';
+      }
+  document.getElementById('ParagonLista').innerHTML = _Rezultat;
+  document.getElementById('FK_Towary').value = "";
+  document.getElementById('FK_Cena').value = "";
+  document.getElementById('FK_vat').value = "";
+  document.getElementById('FK_Ilosc').value = "";
+}
+function ParagonUsunTowar(Nr) {
+//ParagonUsunTowar - Usuwa wybrany towar.
+  if(Nr > -1) {
+    TParagonNT[Nr] = "";
+    TParagonCena[Nr] = "";
+    TParagonVAT[Nr] = "";
+    TParagonIlosc[Nr] = "";
+  }
+  Paragon();
+}
+var TParagonNT = [], TParagonCena = [], TParagonVAT = [], TParagonIlosc = [];
+</SCRIPT>
+<BODY>
+<FONT STYLE="font-size:6pt;">HTML+CSS+JS, Paragon [uproszczona wersja].</FONT>
+<BR /><BR />
+<CENTER>
+    <FORM NAME="formularz" ACTION="">
+        <TABLE BORDER="0" ID="ParagonLista">
+        </TABLE><BR />
+        <TABLE BORDER="0">
+            <TR><TD><INPUT TYPE="text" LIST="Towary" PLACEHOLDER="Nazwa towaru" CLASS="KEdytorek" ID="FK_Towary" AUTOFOCUS />
+                            <DATALIST ID="Towary">
+                                <OPTION VALUE="Dysk SSD(4TB)">
+                                <OPTION VALUE="Joystick">
+                                <OPTION VALUE="Drukarka atramentowa">
+                                <OPTION VALUE="Drukarka laserowa">
+                                <OPTION VALUE="Drukarka igłowa">
+                                <OPTION VALUE="Monitor dla graczy">
+                                <OPTION VALUE="Toner do drukarki">
+                                <OPTION VALUE="Tusz do drukarki">
+                                <OPTION VALUE="Płyta główna">
+                                <OPTION VALUE="Podkładka pod mysz">
+                                <OPTION VALUE="Mysz bezprzewodowa optyczna">
+                                <OPTION VALUE="Mysz przewodowa optyczna">
+                                <OPTION VALUE="Obudowa">
+                                <OPTION VALUE="Zasilacz">
+                                <OPTION VALUE="Płyta główna">
+                                <OPTION VALUE="Radiator">
+                                <OPTION VALUE="Klej termoprzewodzący">
+                                <OPTION VALUE="Głośniki">
+                                <OPTION VALUE="Urządzenia Techniki Komputerowej">
+                            </DATALIST>
+                </TD>
+                <TD><INPUT TYPE="number" PLACEHOLDER="Cena" CLASS="KLista" STYLE="width:150px;" ID="FK_Cena" /></TD>
+                <TD><SELECT PLACEHOLDER="VAT" CLASS="KLista" ID="FK_vat">
+                        <OPTION>&nbsp;</OPTION>
+                        <OPTION>23</OPTION>
+                        <OPTION>15</OPTION>
+                        <OPTION>5</OPTION>
+                    </SELECT>
+                </TD>
+                <TD><INPUT TYPE="number" PLACEHOLDER="Ilość" CLASS="KLista" ID="FK_Ilosc" /></TD>
+                <TD><INPUT TYPE="button" VALUE="+" TITLE="Dodaj przedmiot i ocenę do wyliczenia średniej ocen." CLASS="KPrzycisk" onClick="Paragon();" ID="FK_Dodaj" /></TD>
+            </TR>
+        </TABLE>
+    </FORM>
+</CENTER>
+</BODY>
+</HTML>
