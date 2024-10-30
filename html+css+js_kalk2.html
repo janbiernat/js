@@ -1,0 +1,212 @@
+<HTML>
+    <HEAD>
+        <META CHARSET="utf-8" />
+        <META NAME="keywords" CONTENT="Kalkulator, Kalkulatorek, Liczydło" />
+        <META NAME="description" CONTENT="Aplikacja online, która służy do prostych obliczeń. Jest to prosty kalkulator." />
+        <LINK REL="stylesheet" HREF="style.css" />
+        <LINK REL="shortcut icon" HREF="logo.ico" />
+        <SCRIPT SRC="plik.js"></SCRIPT>
+        <STYLE>
+            body {
+                    background-color     : silver;
+                    background-image     : url('tapeta.jpg');
+                    background-attachment: fixed;
+                    font-family          : verdana, ariel;
+                    font-size            : 13pt;
+            }
+            #rodzic {
+                width           : 1000px;
+                height          : auto;
+                background-color: white;
+                border-radius   : 20px;
+            }
+            #nag {
+                width                  : 980px;
+                height                 : 30px;
+                background-color       : #6495ed;
+                border-top-left-radius : 20px;
+                border-top-right-radius: 20px;
+                padding-right          : 20px;
+                padding-top            : 10px;
+                text-align             : right;
+                font-size              : 10pt;
+            }
+            #info {
+                width           : 960px;
+                height          : 850px;
+                background-color: white;
+                padding         : 20px;
+                text-align      : center;
+                font-size       : 16pt;
+            }
+            .tytul {
+                font-size  : 45pt;
+                font-weight: bold;
+                font-style : italic;
+                color      : #4169e1;
+            }
+            .kalkulator {
+                background-color: #bcaaa4;
+                padding         : 30px;
+                border-radius   : 15px;
+                width           : 500px;
+                border          : 5px solid #4169e1;
+            }
+            input {
+                width           : 500px;
+                height          : 120px;
+                margin-bottom   : 20px;
+                padding         : 10px;
+                border          : 3px solid #4169e1;
+                border-radius   : 15px;
+                background-color: white;
+                text-align      : right;
+                font-size       : 60pt;
+            }
+            button {
+                width           : 100px;
+                height          : 70px;
+                margin          : 1%;
+                border          : none;
+                border-radius   : 1px;
+                background-color: #4169e1;
+                color           : white;
+                cursor          : pointer;
+                font-size       : 35pt;
+            }
+            button:active { background-color: #66ccff; }
+            button.wyczysc {
+                background-color: #dc3545;
+            }
+            button.wyczysc:active { background-color: #660033; }
+            button.wykonaj { width: 340px; background-color: #66cc33; }
+            button.wykonaj:active { background-color: green; }
+            #stopka {
+                width                     : 1000px;
+                height                    : 25px;
+                background-color          : #6495ed;
+                border-bottom-left-radius : 20px;
+                border-bottom-right-radius: 20px;
+                padding-top               : 5px;
+                text-align                : center;
+                font-size                 : 10pt;
+            }
+        </STYLE>
+        <TITLE>Kalkulatorek prosty 2 (c)by Jan T. Biernat.</TITLE>
+    </HEAD>
+<SCRIPT>
+function DATA_DzisiajJest() {
+//DATA_DzisiajJest - Funkcja wyświetla bieżącą datę na podstawie zegara systemowego.
+  const MiesiacNazwa = ['stycznia', 'lutego', 'marca'
+                      , 'kwietnia', 'maja', 'czerwca'
+                      , 'lipiec', 'sierpienia', 'wrzesienia'
+                      , 'października', 'listopada', 'grudznia'];
+  //Deklaracja zmiennych.
+    var Teraz = new Date();
+    var Dzien = Teraz.getDate();
+    var Miesiac = Teraz.getMonth();
+    var Rok = Teraz.getFullYear();
+  //Formatowanie daty.
+    if(Miesiac < 10) { Miesiac = "0"+Miesiac; }
+    if(Dzien < 10) { Dzien = "0"+Dzien; }
+  //Wyświetlenie daty.
+    return Dzien+" "+MiesiacNazwa[parseInt(Miesiac)]+" "+Rok+"r.";
+}
+//
+//----------------------------------------------------------------------------------
+function wyczyscDane() {
+//wyczyscDane - funkcja usuwa wszystkie wprowadzone znaki (tj. dane).
+  document.getElementById('wynik').value = '';
+}
+//
+//----------------------------------------------------------------------------------
+function dodajZnaki(Wartosc) {
+//dodajZnaki - Funkcja dodaje znaki do już wcześniejszych znaków.
+  document.getElementById('wynik').value += Wartosc;
+}
+//
+//----------------------------------------------------------------------------------
+function usunOstatZnak() {
+//usunOstatZnak - Funkcja usuwa ostatni wprowadzony znak.
+  var Kontrolka = document.getElementById('wynik').value;
+  document.getElementById('wynik').value = Kontrolka.substring(0, Kontrolka.length-1);
+}
+//
+//----------------------------------------------------------------------------------
+function potega2stopnia() {
+//potega2stopnia - Funkcja podnosi podaną liczbę do potęgi drugiej (tj. 3^2 = 9).
+  var Kontrolka = document.getElementById('wynik').value;
+  document.getElementById('wynik').value = (Kontrolka*Kontrolka);
+}
+//
+//----------------------------------------------------------------------------------
+function pierw2stopnia() {
+//pierw2stopnia - Funkcja oblicza pierwiastek 2 stopnia z podanej liczby.
+  var Kontrolka = document.getElementById('wynik').value;
+  document.getElementById('wynik').value = (Math.sqrt(Kontrolka)).toFixed(2);
+}
+//
+//----------------------------------------------------------------------------------
+function jedenPrzezX() {
+//jedenPrzezX - Funkcja oblicza wartość 1/x (x - to wartość podana przez użytkownika).
+  var Kontrolka = document.getElementById('wynik').value;
+  if((Kontrolka != '0') && (Kontrolka.trim() != "")) {
+    document.getElementById('wynik').value = (1/Kontrolka).toFixed(2);
+  } else { document.getElementById('wynik').value = 'Dzielenie/0!'; }
+}
+//
+//----------------------------------------------------------------------------------
+function wykonajDzialanie() {
+//wykonajDzialanie - Funkcja wykonuje działanie wpisane przez użytkownika.
+  var Dane = document.getElementById('wynik').value;
+  if(Dane.trim() != "") {
+    try { document.getElementById('wynik').value = eval(Dane); }
+    catch(error) { document.getElementById('wynik').value = 'Zła składnia!'; }
+  } else { document.getElementById('wynik').value = "Brak danych!"; }
+}
+</SCRIPT>
+<BODY>
+<CENTER>
+    <DIV ID="rodzic">
+        <DIV ID="nag"><SCRIPT>document.write(DATA_DzisiajJest());</SCRIPT></DIV>
+        <DIV ID="info">
+            <CENTER>
+                <P><FONT CLASS="tytul">Kalkulator prosty 2</FONT></P>
+                <DIV CLASS="kalkulator">
+                    <INPUT TYPE="text" ID="wynik" readonly />
+                    <BR />
+                        <BUTTON CLASS="wyczysc" onClick="wyczyscDane();">C</BUTTON>
+                        <BUTTON onClick="usunOstatZnak();">&larr;</BUTTON>
+                        <BUTTON onClick="potega2stopnia();">x&#178;</BUTTON>
+                        <BUTTON onClick="pierw2stopnia();">&radic;</BUTTON>
+                    <BR />
+                        <BUTTON onClick="dodajZnaki('1');">1</BUTTON>
+                        <BUTTON onClick="dodajZnaki('2');">2</BUTTON>
+                        <BUTTON onClick="dodajZnaki('3');">3</BUTTON>
+                        <BUTTON onClick="dodajZnaki('+');">+</BUTTON>
+                    <BR />
+                        <BUTTON onClick="dodajZnaki('4');">4</BUTTON>
+                        <BUTTON onClick="dodajZnaki('5');">5</BUTTON>
+                        <BUTTON onClick="dodajZnaki('6');">6</BUTTON>
+                        <BUTTON onClick="dodajZnaki('-');">-</BUTTON>
+                    <BR />
+                        <BUTTON onClick="dodajZnaki('7');">7</BUTTON>
+                        <BUTTON onClick="dodajZnaki('8');">8</BUTTON>
+                        <BUTTON onClick="dodajZnaki('9');">9</BUTTON>
+                        <BUTTON onClick="dodajZnaki('*');">*</BUTTON>
+                    <BR />
+                        <BUTTON onClick="dodajZnaki('0');">0</BUTTON>
+                        <BUTTON onClick="dodajZnaki('.');">.</BUTTON>
+                        <BUTTON onClick="dodajZnaki('00');">00</BUTTON>
+                        <BUTTON onClick="dodajZnaki('/');">/</BUTTON>
+                    <BR />
+                        <BUTTON onClick="jedenPrzezX();">1/x</BUTTON>
+                        <BUTTON CLASS="wykonaj" onClick="wykonajDzialanie();">=</BUTTON>
+                </DIV>
+            </CENTER>
+        </DIV>
+        <DIV ID="stopka">Copyright (c)by Jan T. Biernat</DIV>
+    </DIV>
+</CENTER>
+</BODY>
+<HTML>
