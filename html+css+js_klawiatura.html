@@ -1,0 +1,135 @@
+<HTML>
+    <HEAD>
+        <META CHARSET="utf-8" />
+        <META NAME="keywords" CONTENT="Klawiatura, Klawiaturka, Klawisze, Klawiszki, Przyciski, Przycisk" />
+        <META NAME="description" CONTENT="Aplikacja online, która rysuje wirtualną uproszczoną klawiaturę na ekranie." />
+        <LINK REL="stylesheet" HREF="style.css" />
+        <LINK REL="shortcut icon" HREF="logo.ico" />
+        <SCRIPT SRC="plik.js"></SCRIPT>
+        <STYLE>
+            body {
+                    background-color     : silver;
+                    background-image     : url('tapeta.jpg');
+                    background-attachment: fixed;
+                    font-family          : verdana, ariel;
+                    font-size            : 13pt;
+            }
+            #rodzic {
+                width           : 1200px;
+                height          : auto;
+                background-color: white;
+                border-radius   : 20px;
+            }
+            #nag {
+                width                  : 1180px;
+                height                 : 30px;
+                background-color       : #6495ed;
+                border-top-left-radius : 20px;
+                border-top-right-radius: 20px;
+                padding-left           : 20px;
+                padding-top            : 10px;
+                text-align             : left;
+                color                  : white;
+                font-size              : 10pt;
+            }
+            #info {
+                width           : 960px;
+                height          : 300px;
+                background-color: white;
+                padding         : 20px;
+                text-align      : center;
+                font-size       : 16pt;
+            }
+            .klawiatura {
+                background-color: #fce4ec;
+                padding         : 10px;
+                padding-top     : 15px;
+                border-radius   : 15px;
+                width           : 1000px;
+                height          : 240px;
+                text-align      : left;
+                border          : 5px solid #4169e1;
+            }
+            input {
+                width           : 982px;
+                height          : 60px;
+                margin-bottom   : 20px;
+                padding-left    : 15px;
+                padding-right   : 15px;
+                border          : 3px solid #4169e1;
+                border-radius   : 15px;
+                background-color: white;
+                text-align      : left;
+                font-size       : 30pt;
+            }
+            button {
+                width           : 50px;
+                height          : 40px;
+                margin          : 5px;
+                border-radius   : 15px;
+                border          : 0px solid black;
+                background-color: #4169e1;
+                text-align      : center;
+                color           : white;
+                cursor          : pointer;
+                font-size       : 15pt;
+            }
+            button:active { background-color: #66ccff; }
+            #stopka {
+                width                     : 1200px;
+                height                    : 25px;
+                background-color          : #6495ed;
+                border-bottom-left-radius : 20px;
+                border-bottom-right-radius: 20px;
+                padding-top               : 5px;
+                text-align                : center;
+                color                     : white;
+                font-size                 : 10pt;
+            }
+        </STYLE>
+        <TITLE>Prosta klawiatura wirtualna (c)by Jan T. Biernat.</TITLE>
+    </HEAD>
+<SCRIPT>
+function InfoPokaz(str) {
+//InfoPokaz - Funkcja wyświetla informację o klikniętym klawiszu.
+  document.getElementById('info_klaw').value = '';
+  document.getElementById('info_klaw').value = str;
+}
+//
+//---------------------------------------------------------------------------------------
+function KlawirtualProsta() {
+//KlawirtualProsta - Funkcja rysuje wirtualną klawiaturę na ekranie.
+  const _Klawiatura = ['Esc', '1', '2', '3', '4', '5', '6', '7', '8', '9'
+                      ,'0', '-', '=', 'Backspace', 'Tab', 'Q', 'W', 'E', 'R', 'T', 'Y', 'U'
+                      ,'I', 'O', 'P', 'A', 'S', 'D', 'F', 'G', 'Caps Lock', 'H', 'J'
+                      ,'K', 'L', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', 'Enter'];
+  var konfCSS = "", konfBR1 = "", konfBR2 = ""; Param = "";
+  document.write('<INPUT TYPE="text" ID="info_klaw" VALUE="" PLACEHOLDER="Kliknij lewym klaiszem myszy na wybrany przycisk." TITLE="W tym miejscu zostanie wyświetlony znak klikniętego na ekranie przycisku." READONLY /><BR />');
+  for(var I = 0; I < _Klawiatura.length; I++) {
+    konfCSS = ''; konfBR1 = ""; konfBR2 = "";
+    if(_Klawiatura[I] == 'Esc') { konfCSS = 'width:80px; background-color:green;'; }
+    else if(_Klawiatura[I] == 'Backspace') { konfCSS = 'width:170px; background-color:red;'; konfBR2 = '<BR />'; }
+         else if(_Klawiatura[I] == 'Tab') { konfCSS = 'width:80px; background-color:green;'; }
+              else if(_Klawiatura[I] == 'Caps Lock') { konfCSS = 'width:140px; background-color:#8c9eff;'; konfBR1 = '<BR />'; }
+                   else if(_Klawiatura[I] == 'Enter') { konfCSS = 'width:170px; background-color:green;'; }
+    Param = ""; Param = "'"+_Klawiatura[I]+"'";
+    document.write(konfBR1+'<BUTTON onClick="InfoPokaz('+Param+');" STYLE="'+konfCSS+'">'+_Klawiatura[I]+'</BUTTON>'+konfBR2);
+  }
+}
+</SCRIPT>
+<BODY>
+<CENTER>
+    <DIV ID="rodzic">
+        <DIV ID="nag">Prosta klawiatura wirtualna</DIV>
+        <DIV ID="info"><BR />
+            <CENTER>
+                <DIV CLASS="klawiatura">
+                    <SCRIPT>KlawirtualProsta();</SCRIPT>
+                </DIV>
+            </CENTER>
+        </DIV><BR />
+        <DIV ID="stopka">Copyright (c)by Jan T. Biernat</DIV>
+    </DIV>
+</CENTER>
+</BODY>
+<HTML>
